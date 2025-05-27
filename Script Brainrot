@@ -52,7 +52,7 @@ local function runTouchLoop()
 				simulateTouch(part)
 			end
 		end
-		wait(30)
+		wait(20)
 	end
 end
 
