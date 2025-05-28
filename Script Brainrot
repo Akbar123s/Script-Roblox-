@@ -2,7 +2,7 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/UI-Lib
 game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 ---
 
-AddContent("Switch", "Steal a BrainBrot", [[
+AddContent("Switch", "Steal a Brainrot", [[
 -- Saat aktif
 game.StarterGui:SetCore("SendNotification", {
 	Title = "message";
