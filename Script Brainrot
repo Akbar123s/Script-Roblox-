@@ -1,140 +1,129 @@
-loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/UI-Library/refs/heads/main/Ghost%20Gui'))()
-game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
----
+local username = "FaDhenGaming"  -- Ganti dengan username kamu
+local userId = 6027385792
+local statusFile = "follow_brainrot_status.txt"
 
-AddContent("Switch", "Steal a Brainrot", [[
--- Saat aktif
-game.StarterGui:SetCore("SendNotification", {
-	Title = "message";
-	Text = "Coming soon!!";
-	Duration = 3;
-})
-]], [[
--- Saat nonaktif
--- Kosong (tidak perlu lakukan apa-apa saat toggle dimatikan)
-]])
-
-
-
-AddContent("Switch", "lock Base", [[
--- Saat aktif
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-
-getgenv().TouchRunning = true
-
-local plotsFolder = workspace:FindFirstChild("Plots")
-if not plotsFolder then
-	warn("Folder 'Plots' tidak ditemukan di workspace!")
-	return
+-- Cek apakah pernah klik tombol Close sebelumnya
+local hasClosed = false
+if isfile and isfile(statusFile) then
+	hasClosed = readfile(statusFile) == "true"
 end
 
-player.CharacterAdded:Connect(function(char)
-	character = char
-	humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+pcall(function()
+	local oldGui = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("FollowGui")
+	if oldGui then oldGui:Destroy() end
 end)
 
-local function simulateTouch(part)
-	pcall(function()
-		if humanoidRootPart and humanoidRootPart.Parent then
-			firetouchinterest(humanoidRootPart, part, 0)
-			wait(0.1)
-			firetouchinterest(humanoidRootPart, part, 1)
-		end
-	end)
-end
+local gui = Instance.new("ScreenGui")
+gui.Name = "FollowGui"
+gui.ResetOnSpawn = false
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-local function runTouchLoop()
-	while getgenv().TouchRunning do
-		for _, part in ipairs(plotsFolder:GetDescendants()) do
-			if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
-				simulateTouch(part)
-			end
-		end
-		wait(10)
-	end
-end
+-- Label instruksi
+local instruction = Instance.new("TextLabel")
+instruction.Size = UDim2.new(0, 340, 0, 30)
+instruction.AnchorPoint = Vector2.new(0.5, 1)
+instruction.Position = UDim2.new(0.5, 0, 0.5, -110)
+instruction.BackgroundTransparency = 1
+instruction.Text = "follow my roblox for open script"
+instruction.Font = Enum.Font.GothamBold
+instruction.TextSize = 16
+instruction.TextColor3 = Color3.fromRGB(255, 200, 0)
+instruction.TextStrokeTransparency = 0.6
+instruction.TextWrapped = true
+instruction.TextXAlignment = Enum.TextXAlignment.Center
+instruction.Parent = gui
 
-spawn(runTouchLoop)
-]], [[
--- Saat nonaktif
-getgenv().TouchRunning = false
-]])
+-- Frame utama
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 340, 0, 190)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Parent = gui
 
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 16)
 
+-- Avatar Roblox
+local avatar = Instance.new("ImageLabel")
+avatar.Size = UDim2.new(0, 60, 0, 60)
+avatar.Position = UDim2.new(0, 15, 0, 15)
+avatar.BackgroundTransparency = 1
+avatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..userId.."&width=60&height=60&format=png"
+avatar.Parent = frame
 
-AddContent("Switch", "Noclip", [[
--- Saat aktif
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local noclipConnection
+-- Judul
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -90, 0, 60)
+title.Position = UDim2.new(0, 85, 0, 15)
+title.BackgroundTransparency = 1
+title.Text = "follow my account rblx"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = frame
 
-noclipConnection = game:GetService("RunService").Stepped:Connect(function()
-	character = player.Character or player.CharacterAdded:Wait()
-	for _, part in pairs(character:GetDescendants()) do
-		if part:IsA("BasePart") and part.CanCollide == true then
-			part.CanCollide = false
-		end
+-- TextBox Username
+local box = Instance.new("TextBox")
+box.Size = UDim2.new(1, -30, 0, 40)
+box.Position = UDim2.new(0, 15, 0, 90)
+box.Text = username
+box.Font = Enum.Font.Gotham
+box.TextSize = 18
+box.TextColor3 = Color3.fromRGB(20, 20, 20)
+box.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+box.ClearTextOnFocus = false
+pcall(function() box.TextEditable = false end)
+box.Parent = frame
+Instance.new("UICorner", box).CornerRadius = UDim.new(0, 12)
+
+-- Tombol Copy Username
+local copyButton = Instance.new("TextButton")
+copyButton.Size = UDim2.new(0.48, 0, 0, 40)
+copyButton.Position = UDim2.new(0, 15, 0, 140)
+copyButton.Text = "Copy Username"
+copyButton.Font = Enum.Font.GothamBold
+copyButton.TextSize = 16
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyButton.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
+copyButton.Parent = frame
+Instance.new("UICorner", copyButton).CornerRadius = UDim.new(0, 14)
+
+copyButton.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard(username)
+		print("✅ Username berhasil disalin!")
+	else
+		warn("❌ Clipboard tidak tersedia.")
 	end
 end)
 
-_G.noclipConnection = noclipConnection
-]], [[
--- Saat nonaktif
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
+-- Tombol Close GUI + deteksi status
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0.48, 0, 0, 40)
+closeButton.Position = UDim2.new(0.52, -15, 0, 140)
+closeButton.Text = "Close"
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 16
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
+closeButton.Parent = frame
+Instance.new("UICorner", closeButton).CornerRadius = UDim.new(0, 14)
 
-if _G.noclipConnection then
-	_G.noclipConnection:Disconnect()
-	_G.noclipConnection = nil
-end
+closeButton.MouseButton1Click:Connect(function()
+	gui:Destroy()
 
-for _, part in pairs(character:GetDescendants()) do
-	if part:IsA("BasePart") then
-		part.CanCollide = true
-	end
-end
-]])
-
-
-
-AddContent("Switch", "Instant take ", [[
--- Saat aktif
-_G.instantPromptConnection = nil
-
-local function setPromptInstant(enabled)
-	for _, v in pairs(game:GetDescendants()) do
-		if v:IsA("ProximityPrompt") then
-			v.HoldDuration = enabled and 0 or 1
+	if hasClosed then
+		-- Sudah pernah tutup sebelumnya, baru jalankan script
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/Script%20Brainrot%20New"))()
+	else
+		-- Simpan status Close
+		if writefile then
+			writefile(statusFile, "true")
+			print("⚠️ Pertama kali close. Silakan klik Close lagi untuk memulai script.")
+		else
+			warn("❌ writefile tidak tersedia di executor ini.")
 		end
-	end
-end
-
-setPromptInstant(true)
-
-_G.instantPromptConnection = game.DescendantAdded:Connect(function(v)
-	if v:IsA("ProximityPrompt") then
-		v.HoldDuration = 0
 	end
 end)
-]], [[
--- Saat nonaktif
-local function setPromptInstant(enabled)
-	for _, v in pairs(game:GetDescendants()) do
-		if v:IsA("ProximityPrompt") then
-			v.HoldDuration = enabled and 0 or 1
-		end
-	end
-end
-
-setPromptInstant(false)
-
-if _G.instantPromptConnection then
-	_G.instantPromptConnection:Disconnect()
-	_G.instantPromptConnection = nil
-end
-]])
-
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/TestJavaScript/refs/heads/main/Nusjsj"))()
