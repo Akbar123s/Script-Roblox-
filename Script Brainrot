@@ -103,7 +103,7 @@ end)
 local closeButton = Instance.new("TextButton")
 closeButton.Size = UDim2.new(0.48, 0, 0, 40)
 closeButton.Position = UDim2.new(0.52, -15, 0, 140)
-closeButton.Text = "open"
+closeButton.Text = "close"
 closeButton.Font = Enum.Font.GothamBold
 closeButton.TextSize = 16
 closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
