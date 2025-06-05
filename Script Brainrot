@@ -116,7 +116,9 @@ closeButton.MouseButton1Click:Connect(function()
 
 	if hasClosed then
 		-- Sudah pernah tutup sebelumnya, baru jalankan script
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/Script%20Brainrot%20New"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/StealaBrainrot"))()
+
+
 	else
 		-- Simpan status Close
 		if writefile then
