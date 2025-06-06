@@ -3,47 +3,59 @@ game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 ---
 
 
-
 AddContent("Switch", "lock base", [[
 getgenv().autoTouchEnabled = true
 
--- Hindari loop ganda
-if getgenv().autoTouchThread == nil or not getgenv().autoTouchThreadAlive then
-	getgenv().autoTouchThreadAlive = true
+-- Variabel kontrol loop
+if getgenv().autoTouchLoopThread then
+	-- Kalau thread lama masih jalan, matikan dulu
+	getgenv().autoTouchEnabled = false
+	wait(0.2)
+end
 
-	local player = game.Players.LocalPlayer
+getgenv().autoTouchEnabled = true
 
-	local function getHRP()
-		local char = player.Character or player.CharacterAdded:Wait()
-		return char:WaitForChild("HumanoidRootPart")
-	end
+local player = game.Players.LocalPlayer
 
-	local function triggerAllTouchInterests()
-		local hrp = getHRP()
-		for _, obj in ipairs(workspace:GetDescendants()) do
-			if obj:IsA("Folder") and obj.Name == "Purchases" then
-				for _, part in ipairs(obj:GetDescendants()) do
-					if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
-						firetouchinterest(hrp, part, 0)
-						firetouchinterest(hrp, part, 1)
-						wait(0.1)
-					end
+local function getHRP()
+	local char = player.Character or player.CharacterAdded:Wait()
+	return char:WaitForChild("HumanoidRootPart")
+end
+
+local function triggerAllTouchInterests()
+	local hrp = getHRP()
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("Folder") and obj.Name == "Purchases" then
+			for _, part in ipairs(obj:GetDescendants()) do
+				if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
+					firetouchinterest(hrp, part, 0)
+					firetouchinterest(hrp, part, 1)
+					wait(0.1)
 				end
 			end
 		end
 	end
-
-	-- Loop selalu berjalan jika toggle aktif
-	getgenv().autoTouchThread = task.spawn(function()
-		while getgenv().autoTouchEnabled do
-			pcall(triggerAllTouchInterests)
-			wait(10)
-		end
-		getgenv().autoTouchThreadAlive = false
-	end)
 end
+
+-- Jalankan loop di thread terpisah
+getgenv().autoTouchLoopThread = task.spawn(function()
+	while getgenv().autoTouchEnabled do
+		local success, err = pcall(triggerAllTouchInterests)
+		if not success then
+			warn("Error di triggerAllTouchInterests:", err)
+		end
+		wait(10)
+	end
+	getgenv().autoTouchLoopThread = nil
+end)
 ]], [[
+-- Matikan loop dengan aman
 getgenv().autoTouchEnabled = false
+
+-- Tunggu loop berhenti
+while getgenv().autoTouchLoopThread do
+	wait(0.1)
+end
 ]])
 
 
