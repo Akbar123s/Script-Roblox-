@@ -31,7 +31,7 @@ end
 task.spawn(function()
 	while getgenv().autoTouchLockBaseEnabled do
 		pcall(triggerAllTouchInterests)
-		wait(10)
+		wait(3)
 	end
 end)
 ]], [[
