@@ -31,7 +31,7 @@ end
 task.spawn(function()
 	while getgenv().autoTouchLockBaseEnabled do
 		pcall(triggerAllTouchInterests)
-		wait(3)
+		wait(0.5)
 	end
 end)
 ]], [[
@@ -39,39 +39,6 @@ getgenv().autoTouchLockBaseEnabled = false
 ]])
 
 
-
-AddContent("Switch", "Noclip", [[
--- Saat aktif
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local noclipConnection
-
-noclipConnection = game:GetService("RunService").Stepped:Connect(function()
-	character = player.Character or player.CharacterAdded:Wait()
-	for _, part in pairs(character:GetDescendants()) do
-		if part:IsA("BasePart") and part.CanCollide == true then
-			part.CanCollide = false
-		end
-	end
-end)
-
-_G.noclipConnection = noclipConnection
-]], [[
--- Saat nonaktif
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
-if _G.noclipConnection then
-	_G.noclipConnection:Disconnect()
-	_G.noclipConnection = nil
-end
-
-for _, part in pairs(character:GetDescendants()) do
-	if part:IsA("BasePart") then
-		part.CanCollide = true
-	end
-end
-]])
 
 
 
