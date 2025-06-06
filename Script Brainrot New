@@ -4,43 +4,47 @@ game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 
 
 
-
 AddContent("Switch", "lock base", [[
 getgenv().autoTouchEnabled = true
 
-local player = game.Players.LocalPlayer
+-- Hindari loop ganda
+if getgenv().autoTouchThread == nil or not getgenv().autoTouchThreadAlive then
+	getgenv().autoTouchThreadAlive = true
 
-local function getHRP()
-	local char = player.Character or player.CharacterAdded:Wait()
-	return char:WaitForChild("HumanoidRootPart")
-end
+	local player = game.Players.LocalPlayer
 
-local function triggerAllTouchInterests()
-	local hrp = getHRP()
-	for _, obj in ipairs(workspace:GetDescendants()) do
-		if obj:IsA("Folder") and obj.Name == "Purchases" then
-			for _, part in ipairs(obj:GetDescendants()) do
-				if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
-					firetouchinterest(hrp, part, 0)
-					firetouchinterest(hrp, part, 1)
-					wait(0.1)
+	local function getHRP()
+		local char = player.Character or player.CharacterAdded:Wait()
+		return char:WaitForChild("HumanoidRootPart")
+	end
+
+	local function triggerAllTouchInterests()
+		local hrp = getHRP()
+		for _, obj in ipairs(workspace:GetDescendants()) do
+			if obj:IsA("Folder") and obj.Name == "Purchases" then
+				for _, part in ipairs(obj:GetDescendants()) do
+					if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
+						firetouchinterest(hrp, part, 0)
+						firetouchinterest(hrp, part, 1)
+						wait(0.1)
+					end
 				end
 			end
 		end
 	end
-end
 
--- Jalankan loop setiap 10 detik jika diaktifkan
-task.spawn(function()
-	while getgenv().autoTouchEnabled do
-		pcall(triggerAllTouchInterests)
-		wait(10)
-	end
-end)
+	-- Loop selalu berjalan jika toggle aktif
+	getgenv().autoTouchThread = task.spawn(function()
+		while getgenv().autoTouchEnabled do
+			pcall(triggerAllTouchInterests)
+			wait(10)
+		end
+		getgenv().autoTouchThreadAlive = false
+	end)
+end
 ]], [[
 getgenv().autoTouchEnabled = false
 ]])
-
 
 
 
