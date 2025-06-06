@@ -3,6 +3,15 @@ game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 ---
 
 
+AddContent("Switch", "fast steal", [[
+-- Saat Switch AKTIF
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/BrainRot%20Sell%20Gamers"))()
+]], [[
+-- Saat Switch NONAKTIF
+-- Tidak melakukan apapun atau bisa kamu tambahkan stop script di sini jika perlu
+]])
+
+
 AddContent("Switch", "Lock Base", [[
 getgenv().autoTouchLockBaseEnabled = true
 
@@ -148,3 +157,5 @@ if _G.InfJumpConnection then
     _G.InfJumpConnection = nil
 end
 ]])
+
+
