@@ -3,17 +3,8 @@ game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 ---
 
 
-AddContent("Switch", "lock base", [[
-getgenv().autoTouchEnabled = true
-
--- Variabel kontrol loop
-if getgenv().autoTouchLoopThread then
-	-- Kalau thread lama masih jalan, matikan dulu
-	getgenv().autoTouchEnabled = false
-	wait(0.2)
-end
-
-getgenv().autoTouchEnabled = true
+AddContent("Switch", "Lock Base", [[
+getgenv().autoTouchLockBaseEnabled = true
 
 local player = game.Players.LocalPlayer
 
@@ -37,25 +28,14 @@ local function triggerAllTouchInterests()
 	end
 end
 
--- Jalankan loop di thread terpisah
-getgenv().autoTouchLoopThread = task.spawn(function()
-	while getgenv().autoTouchEnabled do
-		local success, err = pcall(triggerAllTouchInterests)
-		if not success then
-			warn("Error di triggerAllTouchInterests:", err)
-		end
+task.spawn(function()
+	while getgenv().autoTouchLockBaseEnabled do
+		pcall(triggerAllTouchInterests)
 		wait(10)
 	end
-	getgenv().autoTouchLoopThread = nil
 end)
 ]], [[
--- Matikan loop dengan aman
-getgenv().autoTouchEnabled = false
-
--- Tunggu loop berhenti
-while getgenv().autoTouchLoopThread do
-	wait(0.1)
-end
+getgenv().autoTouchLockBaseEnabled = false
 ]])
 
 
@@ -136,8 +116,8 @@ end
 
 
 
-AddContent("Switch", "auto colltect", [[
-getgenv().autoTouchEnabled = true
+AddContent("Switch", "Auto Collect", [[
+getgenv().autoTouchAutoCollectEnabled = true
 
 local player = game.Players.LocalPlayer
 
@@ -161,22 +141,21 @@ local function triggerAllTouchInterests()
 	end
 end
 
--- Jalankan loop setiap 10 detik jika diaktifkan
 task.spawn(function()
-	while getgenv().autoTouchEnabled do
+	while getgenv().autoTouchAutoCollectEnabled do
 		pcall(triggerAllTouchInterests)
 		wait(3)
 	end
 end)
 ]], [[
-getgenv().autoTouchEnabled = false
+getgenv().autoTouchAutoCollectEnabled = false
 ]])
 
 
 
 
 
-AddContent("Switch", "fly", [[
+AddContent("Switch", "inf jump", [[
 -- ON: Aktifkan Infinite Jump
 _G.infiniteJump = true
 local Player = game:GetService("Players").LocalPlayer
