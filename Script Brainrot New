@@ -5,6 +5,44 @@ game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 
 
 
+AddContent("Switch", "lock base", [[
+getgenv().autoTouchEnabled = true
+
+local player = game.Players.LocalPlayer
+
+local function getHRP()
+	local char = player.Character or player.CharacterAdded:Wait()
+	return char:WaitForChild("HumanoidRootPart")
+end
+
+local function triggerAllTouchInterests()
+	local hrp = getHRP()
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("Folder") and obj.Name == "Purchases" then
+			for _, part in ipairs(obj:GetDescendants()) do
+				if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
+					firetouchinterest(hrp, part, 0)
+					firetouchinterest(hrp, part, 1)
+					wait(0.1)
+				end
+			end
+		end
+	end
+end
+
+-- Jalankan loop setiap 10 detik jika diaktifkan
+task.spawn(function()
+	while getgenv().autoTouchEnabled do
+		pcall(triggerAllTouchInterests)
+		wait(10)
+	end
+end)
+]], [[
+getgenv().autoTouchEnabled = false
+]])
+
+
+
 
 AddContent("Switch", "Noclip", [[
 -- Saat aktif
@@ -80,3 +118,71 @@ end
 
 
 
+
+
+AddContent("Switch", "auto colltect", [[
+getgenv().autoTouchEnabled = true
+
+local player = game.Players.LocalPlayer
+
+local function getHRP()
+	local char = player.Character or player.CharacterAdded:Wait()
+	return char:WaitForChild("HumanoidRootPart")
+end
+
+local function triggerAllTouchInterests()
+	local hrp = getHRP()
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("Folder") and obj.Name == "AnimalPodiums" then
+			for _, part in ipairs(obj:GetDescendants()) do
+				if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
+					firetouchinterest(hrp, part, 0)
+					firetouchinterest(hrp, part, 1)
+					wait(0.1)
+				end
+			end
+		end
+	end
+end
+
+-- Jalankan loop setiap 10 detik jika diaktifkan
+task.spawn(function()
+	while getgenv().autoTouchEnabled do
+		pcall(triggerAllTouchInterests)
+		wait(3)
+	end
+end)
+]], [[
+getgenv().autoTouchEnabled = false
+]])
+
+
+
+
+
+AddContent("Switch", "fly", [[
+-- ON: Aktifkan Infinite Jump
+_G.infiniteJump = true
+local Player = game:GetService("Players").LocalPlayer
+local UIS = game:GetService("UserInputService")
+
+if _G.InfJumpConnection then
+    _G.InfJumpConnection:Disconnect()
+end
+
+_G.InfJumpConnection = UIS.JumpRequest:Connect(function()
+    if _G.infiniteJump then
+        local Humanoid = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+        if Humanoid then
+            Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+]], [[
+-- OFF: Nonaktifkan Infinite Jump
+_G.infiniteJump = false
+if _G.InfJumpConnection then
+    _G.InfJumpConnection:Disconnect()
+    _G.InfJumpConnection = nil
+end
+]])
