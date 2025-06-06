@@ -72,7 +72,7 @@ local function fireTouch()
 		end  
 	end  
   
-	wait(0.1)  
+	wait(1)  
   
 	for _, obj in ipairs(workspace:GetDescendants()) do  
 		if obj:IsA("BasePart") and obj.Name == "DeliveryHitbox" then  
