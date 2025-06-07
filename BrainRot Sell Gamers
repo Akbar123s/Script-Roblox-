@@ -39,7 +39,7 @@ Label.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 Label.Position = UDim2.new(0, 10, 0, 10)  
 Label.Size = UDim2.new(0, 120, 0, 25)  
 Label.Font = Enum.Font.GothamBold  
-Label.Text = "Steal First brainrot"  
+Label.Text = "ready"  
 Label.TextColor3 = Color3.fromRGB(255, 255, 255)  
 Label.TextSize = 14  
 Label.Visible = true  
@@ -82,7 +82,7 @@ local function fireTouch()
   
 	Label.Text = "succeed: " .. touched  
 	wait(1.5)  
-	Label.Text = "Steal First brainrot"  
+	Label.Text = "holding Brainrot to Steal"  
 end  
   
 -- Saat tombol diklik  
