@@ -82,7 +82,7 @@ local function fireTouch()
   
 	Label.Text = "succeed: " .. touched  
 	wait(1.5)  
-	Label.Text = "hold Brainrot to Steal"  
+	Label.Text = "holding Brainrot First"  
 end  
   
 -- Saat tombol diklik  
