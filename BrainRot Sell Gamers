@@ -57,7 +57,7 @@ local function fireTouch()
 	end    
 
 	Label.Text = "working"  -- hanya teks tanpa waktu
-	wait(1.9)  -- jeda proses
+	wait(2)  -- jeda proses
 
 	local touched = 0    
 	for _, obj in ipairs(workspace:GetDescendants()) do    
