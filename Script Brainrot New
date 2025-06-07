@@ -3,7 +3,7 @@ game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 ---
 
 
-AddContent("Switch", "fast steal", [[
+AddContent("Switch", "auto Steal Brainrot", [[
 -- Saat Switch AKTIF
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/BrainRot%20Sell%20Gamers"))()
 ]], [[
