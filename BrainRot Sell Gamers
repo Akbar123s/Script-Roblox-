@@ -81,7 +81,7 @@ local function fireTouch()
 	end  
   
 	Label.Text = "succeed: " .. touched  
-	wait(1.5)  
+	wait(3)  
 	Label.Text = "holding Brainrot First"  
 end  
   
