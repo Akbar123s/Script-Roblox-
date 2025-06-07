@@ -3,7 +3,7 @@ game.CoreGui.GhostGui.MainFrame.Title.Text = "Ghost Hub"
 ---
 
 
-AddContent("Switch", "auto Brainrot", [[
+AddContent("Switch", "auto Brainrot☑️", [[
 -- Saat Switch AKTIF
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/BrainRot%20Sell%20Gamers"))()
 ]], [[
@@ -12,7 +12,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Robl
 ]])
 
 
-AddContent("Switch", "Lock Base", [[
+AddContent("Switch", "Lock Base❎", [[
 getgenv().autoTouchLockBaseEnabled = true
 
 local player = game.Players.LocalPlayer
@@ -51,7 +51,7 @@ getgenv().autoTouchLockBaseEnabled = false
 
 
 
-AddContent("Switch", "Instant take ", [[
+AddContent("Switch", "Instant take☑️", [[
 -- Saat aktif
 _G.instantPromptConnection = nil
 
@@ -92,7 +92,7 @@ end
 
 
 
-AddContent("Switch", "Auto Collect", [[
+AddContent("Switch", "Auto Collect❎", [[
 getgenv().autoTouchAutoCollectEnabled = true
 
 local player = game.Players.LocalPlayer
@@ -131,7 +131,7 @@ getgenv().autoTouchAutoCollectEnabled = false
 
 
 
-AddContent("Switch", "inf jump", [[
+AddContent("Switch", "inf jump☑️", [[
 -- ON: Aktifkan Infinite Jump
 _G.infiniteJump = true
 local Player = game:GetService("Players").LocalPlayer
