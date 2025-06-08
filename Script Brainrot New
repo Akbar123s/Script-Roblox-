@@ -114,7 +114,48 @@ end)
 
 
 
+local RunService = game:GetService("RunService")
 
+local enabled = false -- toggle awal
+
+local function triggerPrompt(prompt)
+	if prompt:IsA("ProximityPrompt") and prompt.Enabled and prompt.Parent then
+		prompt.HoldDuration = 0
+		prompt.RequiresLineOfSight = false
+		prompt:InputHoldBegin(Enum.UserInputType.Keyboard)
+		prompt:InputHoldEnd(Enum.UserInputType.Keyboard)
+	end
+end
+
+-- Auto trigger jika ada prompt baru muncul
+workspace.DescendantAdded:Connect(function(descendant)
+	if enabled and descendant:IsA("ProximityPrompt") then
+		task.wait(0.1)
+		triggerPrompt(descendant)
+	end
+end)
+
+-- Loop untuk trigger prompt jika aktif
+RunService.RenderStepped:Connect(function()
+	if enabled then
+		for _, prompt in pairs(workspace:GetDescendants()) do
+			if prompt:IsA("ProximityPrompt") then
+				triggerPrompt(prompt)
+			end
+		end
+	end
+end)
+
+-- Toggle GUI
+MainTab:CreateToggle({
+	Name = "Auto ProximityPrompt",
+	CurrentValue = false,
+	Flag = "Toggle1",
+	Callback = function(value)
+		enabled = value
+		print("Toggle is now:", value)
+	end
+})
 
 
 
