@@ -139,24 +139,27 @@ MainTab:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle_InfJump",
     Callback = function(value)
-        if firstLoad and value then
-            -- Cegah aktif otomatis saat LoadConfiguration
-            print("[Rayfield] Dicegah aktif otomatis (Infinite Jump)")
+        if firstLoad then
+            -- Cegah aktif otomatis saat LoadConfiguration tapi tetap set firstLoad ke false
+            if value then
+                print("[Rayfield] Dicegah aktif otomatis (Infinite Jump)")
+            end
             firstLoad = false
             return
         end
 
-        firstLoad = false
         _G.infiniteJump = value
         local Player = game:GetService("Players").LocalPlayer
         local UIS = game:GetService("UserInputService")
 
-        if value then
-            -- ON: Aktifkan Infinite Jump
-            if _G.InfJumpConnection then
-                _G.InfJumpConnection:Disconnect()
-            end
+        -- Disconnect koneksi lama dulu
+        if _G.InfJumpConnection then
+            _G.InfJumpConnection:Disconnect()
+            _G.InfJumpConnection = nil
+        end
 
+        if value then
+            -- Buat koneksi baru kalau toggle aktif
             _G.InfJumpConnection = UIS.JumpRequest:Connect(function()
                 if _G.infiniteJump then
                     local Humanoid = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
@@ -165,12 +168,6 @@ MainTab:CreateToggle({
                     end
                 end
             end)
-        else
-            -- OFF: Nonaktifkan Infinite Jump
-            if _G.InfJumpConnection then
-                _G.InfJumpConnection:Disconnect()
-                _G.InfJumpConnection = nil
-            end
         end
     end
 })
