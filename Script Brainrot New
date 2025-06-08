@@ -83,48 +83,34 @@ MainTab:CreateToggle({
 
 
 
+local ProximityService = game:GetService("ProximityPromptService")
 
-
-getgenv().InstantTakeEnabled = false
+local instantPromptEnabled = false
 
 MainTab:CreateToggle({
-    Name = "Instant Take",
+    Name = "Instant ProximityPrompt",
     CurrentValue = false,
-    Flag = "Toggle_InstantTake",
+    Flag = "Toggle2",
     Callback = function(value)
-        getgenv().InstantTakeEnabled = value
+        instantPromptEnabled = value
+        print("Instant ProximityPrompt is now:", value)
 
-        local function setPromptInstant(enabled)
-            for _, v in pairs(game:GetDescendants()) do
-                if v:IsA("ProximityPrompt") then
-                    v.HoldDuration = enabled and 0 or 1
-                end
-            end
-        end
-
-        if value then
-            setPromptInstant(true)
-
-            -- Hindari double connect
-            if _G.instantPromptConnection then
-                _G.instantPromptConnection:Disconnect()
-            end
-
-            _G.instantPromptConnection = game.DescendantAdded:Connect(function(v)
-                if v:IsA("ProximityPrompt") then
-                    v.HoldDuration = 0
-                end
-            end)
-        else
-            setPromptInstant(false)
-
-            if _G.instantPromptConnection then
-                _G.instantPromptConnection:Disconnect()
-                _G.instantPromptConnection = nil
+        -- Atur semua ProximityPrompt yang ada saat ini
+        for _, prompt in ipairs(workspace:GetDescendants()) do
+            if prompt:IsA("ProximityPrompt") then
+                prompt.HoldDuration = value and 0 or 1 -- 0 = instan, 1 = default tahan
             end
         end
     end
 })
+
+-- Atur juga jika ada ProximityPrompt baru ditambahkan ke game
+workspace.DescendantAdded:Connect(function(descendant)
+    if descendant:IsA("ProximityPrompt") and instantPromptEnabled then
+        descendant.HoldDuration = 0
+    end
+end)
+
 
 
 
