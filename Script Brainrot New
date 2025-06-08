@@ -41,7 +41,7 @@ local Tab = Window:CreateTab("None", 4483362458) -- Title, Image
 local Section = Tab:CreateSection("lll")
 
 local Button = Tab:CreateButton({
-   Name = "empty",
+   Name = "lock base tomorrow added",
    Callback = function()
   
    end,
