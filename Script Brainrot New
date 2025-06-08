@@ -60,121 +60,40 @@ local Button = Tab:CreateButton({
 local MainTab = Window:CreateTab("Main")
 
 
-
+getgenv().BrainRotActive = false
 
 MainTab:CreateToggle({
     Name = "Steal a Brainrot",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(value)
+        getgenv().BrainRotActive = value
         if value then
             -- Saat toggle AKTIF
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/BrainRot%20Sell%20Gamers"))()
         else
             -- Saat toggle NONAKTIF
-            -- Tambahkan perintah untuk stop script jika ada
-            print("Toggle dimatikan, stop script jika perlu di sini.")
+            print("Toggle dimatikan. Script harus cek getgenv().BrainRotActive.")
         end
     end
 })
 
 
 
-MainTab:CreateToggle({
-    Name = "Lock Base",
-    CurrentValue = false,
-    Flag = "Toggle_LockBase",
-    Callback = function(value)
-        getgenv().autoTouchLockBaseEnabled = value
-
-        if value then
-            -- Saat toggle AKTIF
-            local player = game.Players.LocalPlayer
-
-            local function getHRP()
-                local char = player.Character or player.CharacterAdded:Wait()
-                return char:WaitForChild("HumanoidRootPart")
-            end
-
-            local function triggerAllTouchInterests()
-                local hrp = getHRP()
-                for _, obj in ipairs(workspace:GetDescendants()) do
-                    if obj:IsA("Folder") and obj.Name == "Purchases" then
-                        for _, part in ipairs(obj:GetDescendants()) do
-                            if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
-                                firetouchinterest(hrp, part, 0)
-                                firetouchinterest(hrp, part, 1)
-                                wait(0.1)
-                            end
-                        end
-                    end
-                end
-            end
-
-            task.spawn(function()
-                while getgenv().autoTouchLockBaseEnabled do
-                    pcall(triggerAllTouchInterests)
-                    wait(0.5)
-                end
-            end)
-        else
-            -- Saat toggle NONAKTIF
-            print("Lock Base dimatikan.")
-        end
-    end
-})
 
 
 
-MainTab:CreateToggle({
-    Name = "Auto Collect",
-    CurrentValue = false,
-    Flag = "Toggle_AutoCollect",
-    Callback = function(value)
-        getgenv().autoTouchAutoCollectEnabled = value
-
-        if value then
-            local player = game.Players.LocalPlayer
-
-            local function getHRP()
-                local char = player.Character or player.CharacterAdded:Wait()
-                return char:WaitForChild("HumanoidRootPart")
-            end
-
-            local function triggerAllTouchInterests()
-                local hrp = getHRP()
-                for _, obj in ipairs(workspace:GetDescendants()) do
-                    if obj:IsA("Folder") and obj.Name == "AnimalPodiums" then
-                        for _, part in ipairs(obj:GetDescendants()) do
-                            if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
-                                firetouchinterest(hrp, part, 0)
-                                firetouchinterest(hrp, part, 1)
-                                wait(0.1)
-                            end
-                        end
-                    end
-                end
-            end
-
-            task.spawn(function()
-                while getgenv().autoTouchAutoCollectEnabled do
-                    pcall(triggerAllTouchInterests)
-                    wait(3)
-                end
-            end)
-        else
-            print("Auto Collect dimatikan.")
-        end
-    end
-})
 
 
+getgenv().InstantTakeEnabled = false
 
 MainTab:CreateToggle({
     Name = "Instant Take",
     CurrentValue = false,
     Flag = "Toggle_InstantTake",
     Callback = function(value)
+        getgenv().InstantTakeEnabled = value
+
         local function setPromptInstant(enabled)
             for _, v in pairs(game:GetDescendants()) do
                 if v:IsA("ProximityPrompt") then
@@ -184,8 +103,12 @@ MainTab:CreateToggle({
         end
 
         if value then
-            -- Saat toggle AKTIF
             setPromptInstant(true)
+
+            -- Hindari double connect
+            if _G.instantPromptConnection then
+                _G.instantPromptConnection:Disconnect()
+            end
 
             _G.instantPromptConnection = game.DescendantAdded:Connect(function(v)
                 if v:IsA("ProximityPrompt") then
@@ -193,7 +116,6 @@ MainTab:CreateToggle({
                 end
             end)
         else
-            -- Saat toggle NONAKTIF
             setPromptInstant(false)
 
             if _G.instantPromptConnection then
@@ -207,11 +129,24 @@ MainTab:CreateToggle({
 
 
 
+
+
+
+local firstLoad = true
+
 MainTab:CreateToggle({
     Name = "Infinite Jump",
     CurrentValue = false,
     Flag = "Toggle_InfJump",
     Callback = function(value)
+        if firstLoad and value then
+            -- Cegah aktif otomatis saat LoadConfiguration
+            print("[Rayfield] Dicegah aktif otomatis (Infinite Jump)")
+            firstLoad = false
+            return
+        end
+
+        firstLoad = false
         _G.infiniteJump = value
         local Player = game:GetService("Players").LocalPlayer
         local UIS = game:GetService("UserInputService")
@@ -239,8 +174,3 @@ MainTab:CreateToggle({
         end
     end
 })
-
-
-
-Rayfield:LoadConfiguration()
-
