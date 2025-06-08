@@ -5,11 +5,11 @@ local Label = Instance.new("TextLabel")
 local UICorner_Frame = Instance.new("UICorner")    
 local UICorner_Button = Instance.new("UICorner")    
 local UICorner_Label = Instance.new("UICorner")    
-
+    
 ScreenGui.Name = "DeliveryTouchGUI"    
 ScreenGui.Parent = game.CoreGui    
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling    
-
+    
 -- Frame utama    
 Frame.Parent = ScreenGui    
 Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)    
@@ -19,7 +19,7 @@ Frame.Active = true
 Frame.Draggable = true    
 UICorner_Frame.CornerRadius = UDim.new(0, 10)    
 UICorner_Frame.Parent = Frame    
-
+    
 -- Tombol    
 Button.Parent = Frame    
 Button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)    
@@ -32,8 +32,8 @@ Button.TextSize = 12
 Button.TextWrapped = true    
 UICorner_Button.CornerRadius = UDim.new(0, 8)    
 UICorner_Button.Parent = Button    
-
--- Label    
+    
+-- Label countdown    
 Label.Parent = Frame    
 Label.BackgroundColor3 = Color3.fromRGB(40, 40, 40)    
 Label.Position = UDim2.new(0, 10, 0, 10)    
@@ -45,8 +45,8 @@ Label.TextSize = 14
 Label.Visible = true    
 UICorner_Label.CornerRadius = UDim.new(0, 6)    
 UICorner_Label.Parent = Label    
-
--- Fungsi tombol
+    
+-- Fungsi menyentuh semua DeliveryHitbox    
 local function fireTouch()    
 	local player = game.Players.LocalPlayer    
 	local char = player.Character or player.CharacterAdded:Wait()    
@@ -55,30 +55,32 @@ local function fireTouch()
 		Label.Text = "Tidak ada HRP"    
 		return    
 	end    
-
-	Label.Text = "working"  -- hanya teks tanpa waktu
-	wait(2)  -- jeda proses
-
+    
+	-- Countdown 1.9 detik    
+	for i = 1, 19 do    
+		local timeLeft = math.floor((1.9 - (i - 1) * 0.1) * 10) / 10    
+		Label.Text = "working: " .. tostring(timeLeft) .. "s"    
+		wait(0.1)    
+	end    
+    
 	local touched = 0    
-	for _, obj in ipairs(workspace:GetDescendants()) do    
-		if obj:IsA("BasePart") and obj.Name == "DeliveryHitbox" then    
-			firetouchinterest(toucher, obj, 0)    
-			touched += 1    
-		end    
+    
+	-- Sentuh dua kali dengan jeda untuk memastikan  
+	for i = 1, 2 do
+		for _, obj in ipairs(workspace:GetDescendants()) do    
+			if obj:IsA("BasePart") and obj.Name == "DeliveryHitbox" then    
+				firetouchinterest(toucher, obj, 0)    
+				wait(0.05)    
+				firetouchinterest(toucher, obj, 1)    
+				touched += 1    
+			end    
+		end
 	end    
-
-	wait(1)    
-
-	for _, obj in ipairs(workspace:GetDescendants()) do    
-		if obj:IsA("BasePart") and obj.Name == "DeliveryHitbox" then    
-			firetouchinterest(toucher, obj, 1)    
-		end    
-	end    
-
+    
 	Label.Text = "succees: " .. touched    
-	wait(3)    
+	wait(1)    
 	Label.Text = "holding Brainrot First"    
 end    
-
+    
 -- Saat tombol diklik    
 Button.MouseButton1Click:Connect(fireTouch)
