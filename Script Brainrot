@@ -136,9 +136,16 @@ end)
 
 
 
--- Countdown selesai
-game.StarterGui:SetCore("SendNotification", {
-	Title = "Message",
-	Text = "go follow before timeout",
-	Duration = 300
-})
+local filename = "already_executed.txt"
+
+if not isfile(filename) then
+    -- Tampilkan notifikasi lewat executor (bukan SetCore)
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Message",
+        Text = "go follow before timeout",
+        Duration = 300
+    })
+
+    -- Tandai sebagai sudah dijalankan
+    writefile(filename, "true")
+end
