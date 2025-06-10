@@ -122,9 +122,10 @@ task.spawn(function()
 		wait(1)
 		timeLeft -= 1
 	end
-	closeButton.Text = "Close"
-	closeButton.Active = true
-	closeButton.AutoButtonColor = true
+
+	-- Waktu habis, langsung jalankan script
+	gui:Destroy()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/nabaruBrainrot"))()
 end)
 
 closeButton.MouseButton1Click:Connect(function()
@@ -134,18 +135,12 @@ closeButton.MouseButton1Click:Connect(function()
 	end
 end)
 
-
-
 local filename = "already_executed.txt"
-
 if not isfile(filename) then
-    -- Tampilkan notifikasi lewat executor (bukan SetCore)
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Message",
-        Text = "go follow before timeout",
-        Duration = 300
-    })
-
-    -- Tandai sebagai sudah dijalankan
-    writefile(filename, "true")
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Message",
+		Text = "go follow before timeout",
+		Duration = 300
+	})
+	writefile(filename, "true")
 end
