@@ -1,5 +1,5 @@
-local username = "FaDhenGaming"  
-local userId = 6027385792  
+local username = "prestonhiim"  
+local userId = 3709377220  
   
 local timerFile = "follow_brainrot_tiumer.txt"  -- File untuk menyimpan waktu awal muncul GUI  
 local waitTime = 300 -- 5 menit = 300 detik  
