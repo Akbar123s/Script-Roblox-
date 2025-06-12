@@ -110,7 +110,7 @@ if not isfile(filename) then
     game.StarterGui:SetCore("SendNotification", {  
         Title = "Tips Messange",  
         Text = "don't Steal Brainrot if time is still Countdown",  
-        Duration = 60
+        Duration = 65
     })  
     writefile(filename, "true")  
 end
