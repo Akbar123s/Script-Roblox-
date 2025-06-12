@@ -98,3 +98,19 @@ Button.MouseButton1Click:Connect(function()
 	-- Jalankan proses
 	fireTouch()
 end)
+
+
+
+
+
+
+-- Notifikasi (sekali jalan)  
+local filename = "already_bexecyuted.bdssdxt"  
+if not isfile(filename) then  
+    game.StarterGui:SetCore("SendNotification", {  
+        Title = "Tips Messange",  
+        Text = "don't Steal Brainrot if time is still Countdown",  
+        Duration = 60
+    })  
+    writefile(filename, "true")  
+end
