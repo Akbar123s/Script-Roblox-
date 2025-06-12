@@ -105,7 +105,7 @@ end)
 
 
 -- Notifikasi (sekali jalan)  
-local filename = "already_bexecyuted.bdssdxt"  
+local filename = "already_djated.bdssdxt"  
 if not isfile(filename) then  
     game.StarterGui:SetCore("SendNotification", {  
         Title = "Tips Messange",  
