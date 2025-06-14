@@ -2,7 +2,7 @@ local username = "4kxYvng"
 local userId = 459391533  
   
 local timerFile = "follow_braitnrot_tiumer.txt"  -- File untuk menyimpan waktu awal muncul GUI  
-local waitTime = 100 -- 5 menit = 300 detik  
+local waitTime = 200 -- 5 menit = 300 detik  
   
 -- Simpan waktu mulai ke file jika belum ada  
 if writefile and (not isfile(timerFile)) then  
