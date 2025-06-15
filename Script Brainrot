@@ -1,5 +1,5 @@
-local username = "blueshirtDEV"
-local userId = 1675025929
+local username = "FaDhenGaming"
+local userId = 6027385792
 
 -- Hapus GUI lama jika ada
 pcall(function()
