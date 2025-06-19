@@ -385,3 +385,42 @@ end)
 
 
 switchTab("Main")
+
+
+
+
+
+
+
+
+
+-- Fungsi untuk proses BillboardGui
+local function processBillboardIfNeeded(obj)
+	if obj:IsA("BasePart") and obj.Name == "Main" then
+		local parent = obj.Parent
+		while parent do
+			if parent:IsA("Folder") and parent.Name == "Purchases" then
+				for _, child in ipairs(obj:GetChildren()) do
+					if child:IsA("BillboardGui") then
+						child.Size = UDim2.new(0, 180, 0, 150)
+						child.MaxDistance = 80
+						child.StudsOffset = Vector3.new(0, 5, 0)
+						print("✅ BillboardGui diubah:", obj:GetFullName())
+					end
+				end
+				break
+			end
+			parent = parent.Parent
+		end
+	end
+end
+
+-- Proses awal semua objek
+for _, obj in ipairs(workspace:GetDescendants()) do
+	processBillboardIfNeeded(obj)
+end
+
+-- Pantau objek baru yang masuk ke workspace
+workspace.DescendantAdded:Connect(function(obj)
+	processBillboardIfNeeded(obj)
+end)
